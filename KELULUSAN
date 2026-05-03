@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pengumuman Kelulusan - SMA Negeri 4 Halmahera Tengah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0a192f;color:#fff;overflow-x:hidden;}
+.container{width:90%;max-width:1100px;margin:auto;}
+.hidden{display:none;}
+.btn{padding:12px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:600;transition:.3s;}
+.btn-primary{background:#d4af37;color:#0a192f;}
+.btn-primary:hover{opacity:.9;}
+.btn-disabled{background:#555;color:#ccc;cursor:not-allowed;}
+.card{background:#112240;padding:20px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,0.3);}
+.center{text-align:center;}
+header{padding:30px 0;}
+.header-wrap{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap;text-align:center;}
+.logo{width:70px;height:70px;object-fit:contain;background:#fff;border-radius:10px;padding:5px;}
+h1{font-size:28px;}
+.subtitle{color:#d4af37;margin-top:8px;}
+.section{margin-top:40px;}
+.countdown{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.time-box{background:#112240;padding:15px 20px;border-radius:12px;min-width:80px;}
+.time-box span{font-size:22px;font-weight:700;color:#d4af37;}
+.nav{margin-top:20px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+input{padding:12px;border-radius:10px;border:none;width:250px;max-width:90%;}
+.result{margin-top:20px;}
+.lulus{color:#4ade80;font-weight:700;}
+.tidak{color:#f87171;font-weight:700;}
+.warning{color:#facc15;}
+.highlight-lulus{color:#4ade80;font-weight:700;}
+footer{margin-top:50px;padding:20px;text-align:center;color:#aaa;}
+.typing{border-right:2px solid #d4af37;white-space:pre-wrap;}
+</style>
+</head>
+<body>
+
+<script>
+const DEV_MODE = true;
+const LOGO_URL = "https://via.placeholder.com/150?text=LOGO+SMA";
+const SIGNATURE_URL = "https://via.placeholder.com/250x100?text=TANDA+TANGAN";
+</script>
+
+<div id="page-home" class="page">
+  <header>
+    <div class="header-wrap">
+      <img class="logo" src="" id="logoImg" alt="Logo Sekolah">
+      <div>
+        <h1>Pengumuman Kelulusan</h1>
+        <div class="subtitle">SMA NEGERI 4 HALMAHERA TENGAH - 2025/2026</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card center">
+      <h2>Selamat Datang</h2>
+      <p>Sistem Pengumuman Kelulusan Online</p>
+    </div>
+
+    <div class="section card">
+      <h3>Statistik</h3>
+      <p>Tanggal Pengumuman: 4 May 2026 15:30:00</p>
+      <p>Total Peserta: 45 Siswa</p>
+      <p>Akreditasi: <b>B</b></p>
+    </div>
+
+    <div class="section card center">
+      <h3>Countdown</h3>
+      <div class="countdown">
+        <div class="time-box"><span id="days">0</span><br>Hari</div>
+        <div class="time-box"><span id="hours">0</span><br>Jam</div>
+        <div class="time-box"><span id="minutes">0</span><br>Menit</div>
+        <div class="time-box"><span id="seconds">0</span><br>Detik</div>
+      </div>
+      <br>
+      <button id="enterBtn" class="btn btn-disabled" disabled>PENGUMUMAN BELUM DIBUKA</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-sambutan" class="page hidden">
+  <div class="container center section">
+    <h2>Sambutan Kepala Sekolah</h2>
+
+    <p id="sambutanText" class="card center typing"></p>
+
+    <div class="section">
+      <img id="signatureImg" src="" alt="tanda tangan" style="max-width:250px;margin-top:20px;">
+      <p style="margin-top:10px;"><b>Saida Kamaluddin, S.Pd</b></p>
+      <p>NIP 197810072006042017</p>
+    </div>
+
+    <div class="nav">
+      <button class="btn" onclick="goHome()">Kembali</button>
+      <button class="btn btn-primary" onclick="goCheck()">Cek Kelulusan</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-check" class="page hidden">
+  <div class="container center section">
+    <h2>Cek Kelulusan</h2>
+    <input id="nisnInput" placeholder="Masukkan NISN" onkeydown="if(event.key==='Enter')checkKelulusan()">
+    <br><br>
+    <button class="btn btn-primary" onclick="checkKelulusan()">CEK KELULUSAN</button>
+
+    <div id="result" class="result"></div>
+
+    <div class="nav">
+      <button class="btn" onclick="goHome()">Home</button>
+      <button class="btn" onclick="goCheck()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; <span id="year"></span> SMA Negeri 4 Halmahera Tengah
+</footer>
+
+<script>
+const dataCSV = `
+AGIS MELYANA HARJONO\t3075267063\tLULUS
+ANDINI MUSI\t0077956275\tLULUS
+ANISA JUWARIAH\t0068917216\tLULUS
+ATTAHIA BILAL RIZQULLOH\t0081594513\tLULUS
+DELMAN LARENGGANG\t0038266579\tLULUS
+Dina Aprilia D. Suleman\t0088422772\LULUS
+HARLAN SAFAYAT\t0087099846\LULUS
+JELINSJER SAUREH\t0088935871\LULUS
+KASIH PERTIWI\t0085636758\LULUS
+M. IBRAM I. SANGADJI\t0083722151\LULUS
+Merlinda Hatari\t0081590121\LULUS
+Musharraf Arafat Baay\t0087832296\LULUS
+MUSTIKA NUR CAHYATI\t0082236826\LULUS
+PING NUSU\t0074300264\LULUS
+RAMA YOGY PRATAMA\t0083958394\LULUS
+RENDY PRASETYO\t0075003242\LULUS
+RITI KELSYA BUCHARI\t0075473037\LULUS
+Saif Assarqi\t0071922225\LULUS
+SAIPUL BAHRI\0085800228\LULUS
+SYAHRUL RAHMAT YULIANTO\0077026033\LULUS
+Tata Yudiana\0064979867\LULUS
+Yulia Nur Andini\0079105843\LULUS
+ANDI ABDUL FATIR\0083433338\LULUS
+ANDI NURFIANTI SIDANG\0089069489\LULUS
+Aprianti Bustamin\0082183419\LULUS
+ARI ARDIANSYAH\0066389581\LULUS
+ARYA SYAHPUTRA\0082698986\LULUS
+AZMIR JAHUDDIN\0082617263\LULUS
+CITRA LAURA HAMKA\0082057196\LULUS
+DESKA ARITHYA M.IRFAN\0081976184\LULUS
+DIRLI M. PAPEHASENG\0072858008\LULUS
+FARLAN MUHAMAD\0088743276\LULUS
+HARI PANGESTI\0087488696\LULUS
+HERLIS BANE\0078135303\LULUS
+JEISEN MARSHIALANO NUSA\0073434521\LULUS
+Maryo Fernano Tampubolon\0084450512\LULUS
+NESA AGISTI A. GAFAR\0071793473\LULUS
+NOFITA BUGIS\0071011996\LULUS
+PANUS JEMBRISON KAWANG\0083577038\LULUS
+Rahma M. Neng Tias\0084406015\LULUS
+Refandi Ahmad Babay\0082921389\LULUS
+SATRIO YUSLAN\0084710970\LULUS
+Susti Purbasari Dingoto\0084038891\LULUS
+TRIOREFAN PAPAUA\0081475052\LULUS
+WIWIT JUWITA SARI\0088489093\LULUS
+
+`;
+
+let students = [];
+
+function parseCSV(){
+  students = dataCSV.trim().split('\n').map(r=>{
+    const c = r.split(/\t+/);
+    return { nama:c[0]?.trim(), nisn:c[1]?.trim(), status:c[2]?.trim() };
+  }).filter(s=>s.nama && s.nisn);
+}
+
+function checkKelulusan(){
+  const nisn = document.getElementById('nisnInput').value.trim();
+  const res = document.getElementById('result');
+  const s = students.find(x=>x.nisn===nisn);
+
+  if(!s){res.innerHTML='<p class="warning">Data tidak ditemukan</p>';return;}
+
+  if(s.status==='LULUS'){
+    res.innerHTML=`<p><b>${s.nama}</b></p><p class='lulus'>LULUS</p>`;
+  }else{
+    res.innerHTML=`<p><b>${s.nama}</b></p><p class='tidak'>TIDAK LULUS</p>`;
+  }
+}
+
+function goHome(){show('home');}
+function goCheck(){show('check');}
+function goSambutan(){show('sambutan'); startTyping();}
+
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.getElementById('page-'+id).classList.remove('hidden');
+  if(id==='sambutan') startTyping();
+}
+
+function startTyping(){
+  const text = "Saya sebagai Kepala SMA Negeri 4 Halmahera Tengah mengucapkan banyak selamat bagi siswa yang dinyatakan LULUS. Semoga kalian dapat meraih cita-cita kalian dan terus berkembang di luar sana. Tetaplah menjaga almamater SMA Negeri 4 Halmahera Tengah.\n\nDengan penuh rasa syukur, kami mengumumkan hasil kelulusan siswa SMA Negeri 4 Halmahera Tengah.";
+
+  const el = document.getElementById('sambutanText');
+  el.innerHTML='';
+  let i=0;
+
+  function type(){
+    if(i<text.length){
+      let char = text[i];
+      el.innerHTML += char;
+      i++;
+      setTimeout(type,25);
+    }else{
+      el.innerHTML = el.innerHTML.replace(/LULUS/g,'<span class="highlight-lulus">LULUS</span>');
+    }
+  }
+
+  type();
+}
+
+window.onload=function(){
+  document.getElementById('logoImg').src=LOGO_URL;
+  document.getElementById('signatureImg').src=SIGNATURE_URL;
+  document.getElementById('year').innerText=new Date().getFullYear();
+  parseCSV();
+};
+
+const target=new Date('May 4, 2026 15:30:00').getTime();
+
+function updateCountdown(){
+  const now=new Date().getTime();
+  let diff=target-now;
+
+  if(diff<=0||DEV_MODE){
+    document.getElementById('enterBtn').disabled=false;
+    document.getElementById('enterBtn').className='btn btn-primary';
+    document.getElementById('enterBtn').innerText='MASUK KE HALAMAN PENGUMUMAN';
+    document.getElementById('enterBtn').onclick=()=>show('sambutan');
+    return;
+  }
+
+  let d=Math.floor(diff/86400000);
+  let h=Math.floor(diff%86400000/3600000);
+  let m=Math.floor(diff%3600000/60000);
+  let s=Math.floor(diff%60000/1000);
+
+  document.getElementById('days').innerText=d;
+  document.getElementById('hours').innerText=h;
+  document.getElementById('minutes').innerText=m;
+  document.getElementById('seconds').innerText=s;
+}
+
+setInterval(updateCountdown,1000);
+</script>
+
+</body>
+</html>
